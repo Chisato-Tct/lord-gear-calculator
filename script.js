@@ -1,3 +1,38 @@
+/********************
+ * マスターデータ
+ * 表示キー → 進行ID
+ ********************/
+const KEY_TO_ID = {
+  "グッド-0":1, "グッド-1":2,
+
+  "レア-0":3, "レア-1":4, "レア-2":5, "レア-3":6,
+
+  "エピック-0":7, "エピック-1":8, "エピック-2":9, "エピック-3":10,
+
+  "エピックT1-0":11, "エピックT1-1":12, "エピックT1-2":13, "エピックT1-3":14,
+
+  "レジェンド-0":15, "レジェンド-1":16, "レジェンド-2":17, "レジェンド-3":18,
+
+  "レジェンドT1-0":19, "レジェンドT1-1":20, "レジェンドT1-2":21, "レジェンドT1-3":22,
+
+  "レジェンドT2-0":23, "レジェンドT2-1":24, "レジェンドT2-2":25, "レジェンドT2-3":26,
+
+  "レジェンドT3-0":27, "レジェンドT3-1":28, "レジェンドT3-2":29, "レジェンドT3-3":30,
+
+  "神話-0":31, "神話-1":32, "神話-2":33, "神話-3":34,
+
+  "神話T1-0":35, "神話T1-1":36, "神話T1-2":37, "神話T1-3":38,
+
+  "神話T2-0":39, "神話T2-1":40, "神話T2-2":41, "神話T2-3":42,
+
+  "神話T3-0":43, "神話T3-1":44, "神話T3-2":45, "神話T3-3":46,
+
+  "神話T4-0":47, "神話T4-1":48, "神話T4-2":49, "神話T4-3":50
+};
+
+/********************
+ * 進行ID → 素材
+ ********************/
 const MASTER = {
   1:{silk:1500,thread:15,blueprint:0,pt:1125},
   2:{silk:3800,thread:40,blueprint:0,pt:1875},
@@ -51,24 +86,42 @@ const MASTER = {
   50:{silk:475000,thread:4750,blueprint:990,pt:0}
 };
 
+/********************
+ * 計算処理（6部位）
+ ********************/
 function calculate() {
-  const cur = Number(document.getElementById("currentId").value);
-  const next = Number(document.getElementById("nextId").value);
+  const currents = document.querySelectorAll(".current");
+  const targets = document.querySelectorAll(".target");
 
-  let silk = 0, thread = 0, blueprint = 0, pt = 0;
+  let silk = 0;
+  let thread = 0;
+  let blueprint = 0;
+  let pt = 0;
 
-  for (let i = cur + 1; i <= next; i++) {
-    silk += MASTER[i].silk;
-    thread += MASTER[i].thread;
-    blueprint += MASTER[i].blueprint;
-    pt += MASTER[i].pt;
+  for (let i = 0; i < currents.length; i++) {
+    const curKey = currents[i].value;
+    const targetKey = targets[i].value;
+
+    if (!curKey || !targetKey) continue;
+
+    const curId = KEY_TO_ID[curKey];
+    const targetId = KEY_TO_ID[targetKey];
+
+    if (targetId <= curId) continue;
+
+    for (let id = curId + 1; id <= targetId; id++) {
+      silk += MASTER[id].silk;
+      thread += MASTER[id].thread;
+      blueprint += MASTER[id].blueprint;
+      pt += MASTER[id].pt;
+    }
   }
 
   document.getElementById("result").innerHTML = `
-    <h3>計算結果</h3>
+    <h3>計算結果（6部位合算）</h3>
     <p>必要な絹：${silk}</p>
     <p>必要な金の糸：${thread}</p>
     <p>必要な設計図：${blueprint}</p>
-    <p>獲得評価pt：${pt}</p>
+    <p>獲得評価ポイント：${pt}</p>
   `;
 }
