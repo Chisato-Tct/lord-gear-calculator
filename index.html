@@ -11,76 +11,76 @@
 <p>各部位ごとに「現在」と「目標」を選択してください。</p>
 
 <table border="1" cellpadding="8">
-  <tr>
-    <th>部位</th>
-    <th>現在</th>
-    <th>目標</th>
-  </tr>
-
-  <!-- 6部位 -->
-  <tr>
-    <td>部位1</td>
-    <td><select class="current"></select></td>
-    <td><select class="target"></select></td>
-  </tr>
-  <tr>
-    <td>部位2</td>
-    <td><select class="current"></select></td>
-    <td><select class="target"></select></td>
-  </tr>
-  <tr>
-    <td>部位3</td>
-    <td><select class="current"></select></td>
-    <td><select class="target"></select></td>
-  </tr>
-  <tr>
-    <td>部位4</td>
-    <td><select class="current"></select></td>
-    <td><select class="target"></select></td>
-  </tr>
-  <tr>
-    <td>部位5</td>
-    <td><select class="current"></select></td>
-    <td><select class="target"></select></td>
-  </tr>
-  <tr>
-    <td>部位6</td>
-    <td><select class="current"></select></td>
-    <td><select class="target"></select></td>
-  </tr>
+  <thead>
+    <tr>
+      <th>部位</th>
+      <th>現在</th>
+      <th>目標</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>ローブ</td>
+      <td><select class="current"></select></td>
+      <td><select class="target"></select></td>
+    </tr>
+    <tr>
+      <td>ズボン</td>
+      <td><select class="current"></select></td>
+      <td><select class="target"></select></td>
+    </tr>
+    <tr>
+      <td>指輪</td>
+      <td><select class="current"></select></td>
+      <td><select class="target"></select></td>
+    </tr>
+    <tr>
+      <td>杖</td>
+      <td><select class="current"></select></td>
+      <td><select class="target"></select></td>
+    </tr>
+    <tr>
+      <td>帽子</td>
+      <td><select class="current"></select></td>
+      <td><select class="target"></select></td>
+    </tr>
+    <tr>
+      <td>装飾</td>
+      <td><select class="current"></select></td>
+      <td><select class="target"></select></td>
+    </tr>
+  </tbody>
 </table>
 
 <br>
+
+<h3>所持素材</h3>
+<label>
+  絹：
+  <input type="number" id="have-silk" value="0">
+</label>
+<br><br>
+<label>
+  金の糸：
+  <input type="number" id="have-thread" value="0">
+</label>
+<br><br>
+<label>
+  設計図：
+  <input type="number" id="have-blueprint" value="0">
+</label>
+
+<br><br>
+
 <button onclick="calculate()">計算する</button>
 
 <hr>
 
-<div id="result">ここに結果が表示されます</div>
+<h2>計算結果</h2>
+<div id="result">
+  ここに結果が表示されます
+</div>
 
 <script src="script.js"></script>
-<script>
-/* セレクト項目を一括生成 */
-const keys = [
-  "グッド-0","グッド-1",
-  "レア-0","レア-1","レア-2","レア-3",
-  "エピック-0","エピック-1","エピック-2","エピック-3",
-  "エピックT1-0","エピックT1-1","エピックT1-2","エピックT1-3",
-  "レジェンド-0","レジェンド-1","レジェンド-2","レジェンド-3",
-  "レジェンドT1-0","レジェンドT1-1","レジェンドT1-2","レジェンドT1-3",
-  "レジェンドT2-0","レジェンドT2-1","レジェンドT2-2","レジェンドT2-3",
-  "レジェンドT3-0","レジェンドT3-1","レジェンドT3-2","レジェンドT3-3",
-  "神話-0","神話-1","神話-2","神話-3",
-  "神話T1-0","神話T1-1","神話T1-2","神話T1-3",
-  "神話T2-0","神話T2-1","神話T2-2","神話T2-3",
-  "神話T3-0","神話T3-1","神話T3-2","神話T3-3",
-  "神話T4-0","神話T4-1","神話T4-2","神話T4-3"
-];
-
-document.querySelectorAll("select").forEach(sel => {
-  sel.innerHTML = `<option value="">選択</option>` +
-    keys.map(k => `<option value="${k}">${k}</option>`).join("");
-});
-</script>
-
 </body>
 </html>
