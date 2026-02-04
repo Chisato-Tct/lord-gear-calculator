@@ -3,31 +3,67 @@
 <head>
   <meta charset="UTF-8" />
   <title>領主装備計算ツール</title>
-  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <h1>領主装備計算ツール（α版）</h1>
 
-<div id="app">
-  <label>
-    現在ID：
-    <input type="number" id="curId" value="1" min="0">
-  </label>
-  <br><br>
+<table border="1">
+  <tr>
+    <th>部位</th>
+    <th>現在</th>
+    <th>次</th>
+  </tr>
 
-  <label>
-    次ID：
-    <input type="number" id="nextId" value="4" min="0">
-  </label>
-  <br><br>
+  <tr>
+    <td>ローブ</td>
+    <td>
+      <select class="current">
+        <option value="7">エピック-0</option>
+        <option value="5">レア-2</option>
+      </select>
+    </td>
+    <td>
+      <select class="next">
+        <option value="15">レジェンド-0</option>
+      </select>
+    </td>
+  </tr>
 
-  <button onclick="calculate()">計算する</button>
+  <tr>
+    <td>ズボン</td>
+    <td>
+      <select class="current">
+        <option value="5">レア-2</option>
+      </select>
+    </td>
+    <td>
+      <select class="next">
+        <option value="15">レジェンド-0</option>
+      </select>
+    </td>
+  </tr>
 
-  <hr>
+  <tr>
+    <td>指輪</td>
+    <td>
+      <select class="current">
+        <option value="7">エピック-0</option>
+      </select>
+    </td>
+    <td>
+      <select class="next">
+        <option value="15">レジェンド-0</option>
+      </select>
+    </td>
+  </tr>
+</table>
 
-  <div id="result"></div>
-</div>
+<br>
+<button onclick="calculate()">計算する</button>
+
+<h2>結果</h2>
+<div id="result"></div>
 
 <script src="script.js"></script>
 </body>
