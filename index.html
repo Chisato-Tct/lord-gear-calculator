@@ -2,19 +2,39 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>領主装備計算ツール（α版）</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>領主装備計算ツール</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>領主装備計算ツール（α）</h1>
 
-  <p>※ 現在は試作版です</p>
+<h1>領主装備計算ツール（α版）</h1>
 
-  <div id="app">
-    <p>ここに計算UIが入ります</p>
-  </div>
+<div id="app">
+  <label>
+    上げたい部位数：
+    <input type="number" id="count" value="3" min="1">
+  </label>
+  <br><br>
 
-  <script src="script.js"></script>
+  <label>
+    1部位あたり必要な糸：
+    <input type="number" id="thread" value="10">
+  </label>
+  <br><br>
+
+  <label>
+    1部位あたり必要な絹：
+    <input type="number" id="silk" value="1000">
+  </label>
+  <br><br>
+
+  <button onclick="calculate()">計算する</button>
+
+  <hr>
+
+  <div id="result"></div>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
