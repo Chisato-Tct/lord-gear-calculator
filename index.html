@@ -2,32 +2,116 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
-  <title>領主装備計算ツール（α版）</title>
-  <link rel="stylesheet" href="style.css">
+  <title>領主装備計算ツール</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
 
-<h1>領主装備計算ツール（α版）</h1>
+<h1>領主装備計算ツール</h1>
 
-<div>
-  <label>
-    現在ID：
-    <input type="number" id="currentId" value="7" min="1" max="50">
-  </label>
-  <br><br>
+<p>各部位ごとに「現在」と「目標」を選択してください。</p>
 
-  <label>
-    次ID：
-    <input type="number" id="nextId" value="15" min="1" max="50">
-  </label>
-  <br><br>
+<table border="1" cellpadding="6">
+  <tr>
+    <th>部位</th>
+    <th>現在</th>
+    <th>目標</th>
+  </tr>
 
-  <button onclick="calculate()">計算する</button>
+  <!-- 共通オプション -->
+  <!-- JSで value → 進行ID に変換する前提 -->
+  <!-- 表示キーは人間用 -->
 
-  <hr>
+  <!-- 部位1 -->
+  <tr>
+    <td>部位1</td>
+    <td>
+      <select class="current">
+        <option>グッド-0</option>
+        <option>グッド-1</option>
 
-  <div id="result"></div>
-</div>
+        <option>レア-0</option>
+        <option>レア-1</option>
+        <option>レア-2</option>
+        <option>レア-3</option>
+
+        <option>エピック-0</option>
+        <option>エピック-1</option>
+        <option>エピック-2</option>
+        <option>エピック-3</option>
+
+        <option>エピックT1-0</option>
+        <option>エピックT1-1</option>
+        <option>エピックT1-2</option>
+        <option>エピックT1-3</option>
+
+        <option>レジェンド-0</option>
+        <option>レジェンド-1</option>
+        <option>レジェンド-2</option>
+        <option>レジェンド-3</option>
+
+        <option>レジェンドT1-0</option>
+        <option>レジェンドT1-1</option>
+        <option>レジェンドT1-2</option>
+        <option>レジェンドT1-3</option>
+
+        <option>レジェンドT2-0</option>
+        <option>レジェンドT2-1</option>
+        <option>レジェンドT2-2</option>
+        <option>レジェンドT2-3</option>
+
+        <option>レジェンドT3-0</option>
+        <option>レジェンドT3-1</option>
+        <option>レジェンドT3-2</option>
+        <option>レジェンドT3-3</option>
+
+        <option>神話-0</option>
+        <option>神話-1</option>
+        <option>神話-2</option>
+        <option>神話-3</option>
+
+        <option>神話T1-0</option>
+        <option>神話T1-1</option>
+        <option>神話T1-2</option>
+        <option>神話T1-3</option>
+
+        <option>神話T2-0</option>
+        <option>神話T2-1</option>
+        <option>神話T2-2</option>
+        <option>神話T2-3</option>
+
+        <option>神話T3-0</option>
+        <option>神話T3-1</option>
+        <option>神話T3-2</option>
+        <option>神話T3-3</option>
+
+        <option>神話T4-0</option>
+        <option>神話T4-1</option>
+        <option>神話T4-2</option>
+        <option>神話T4-3</option>
+      </select>
+    </td>
+    <td>
+      <select class="target"></select>
+    </td>
+  </tr>
+
+  <!-- 部位2〜6（同じ構造） -->
+  <tr><td>部位2</td><td><select class="current"></select></td><td><select class="target"></select></td></tr>
+  <tr><td>部位3</td><td><select class="current"></select></td><td><select class="target"></select></td></tr>
+  <tr><td>部位4</td><td><select class="current"></select></td><td><select class="target"></select></td></tr>
+  <tr><td>部位5</td><td><select class="current"></select></td><td><select class="target"></select></td></tr>
+  <tr><td>部位6</td><td><select class="current"></select></td><td><select class="target"></select></td></tr>
+</table>
+
+<br>
+
+<button onclick="calculate()">計算する</button>
+
+<hr>
+
+<h2>計算結果</h2>
+<div id="result">ここに結果が表示されます</div>
 
 <script src="script.js"></script>
 </body>
