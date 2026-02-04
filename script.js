@@ -1,5 +1,3 @@
-console.log("JS loaded");
-
 function calculate() {
   const count = Number(document.getElementById("count").value);
   const thread = Number(document.getElementById("thread").value);
