@@ -10,7 +10,7 @@
 <h1>領主装備計算ツール</h1>
 <p>各部位ごとに「現在」と「目標」を選択してください。</p>
 
-<table border="1" cellpadding="8">
+<table>
   <thead>
     <tr>
       <th>部位</th>
@@ -19,67 +19,26 @@
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <td>帽子</td>
-      <td><select class="current"></select></td>
-      <td><select class="target"></select></td>
-    </tr>
-    <tr>
-      <td>装飾</td>
-      <td><select class="current"></select></td>
-      <td><select class="target"></select></td>
-    </tr>
-    <tr>
-      <td>ローブ</td>
-      <td><select class="current"></select></td>
-      <td><select class="target"></select></td>
-    </tr>
-    <tr>
-      <td>ズボン</td>
-      <td><select class="current"></select></td>
-      <td><select class="target"></select></td>
-    </tr>
-    <tr>
-      <td>指輪</td>
-      <td><select class="current"></select></td>
-      <td><select class="target"></select></td>
-    </tr>
-    <tr>
-      <td>杖</td>
-      <td><select class="current"></select></td>
-      <td><select class="target"></select></td>
-    </tr>
+    <tr><td>帽子</td><td><select class="current"></select></td><td><select class="target"></select></td></tr>
+    <tr><td>装飾</td><td><select class="current"></select></td><td><select class="target"></select></td></tr>
+    <tr><td>ローブ</td><td><select class="current"></select></td><td><select class="target"></select></td></tr>
+    <tr><td>ズボン</td><td><select class="current"></select></td><td><select class="target"></select></td></tr>
+    <tr><td>指輪</td><td><select class="current"></select></td><td><select class="target"></select></td></tr>
+    <tr><td>杖</td><td><select class="current"></select></td><td><select class="target"></select></td></tr>
   </tbody>
 </table>
 
-<br>
-
-<h3>所持素材</h3>
-<label>
-  絹：
-  <input type="number" id="have-silk" value="0">
-</label>
-<br><br>
-<label>
-  金の糸：
-  <input type="number" id="have-thread" value="0">
-</label>
-<br><br>
-<label>
-  設計図：
-  <input type="number" id="have-blueprint" value="0">
-</label>
-
-<br><br>
+<div class="materials">
+  <h3>所持素材</h3>
+  <label>絹 <input type="number" id="have-silk" value="0"></label>
+  <label>金の糸 <input type="number" id="have-thread" value="0"></label>
+  <label>設計図 <input type="number" id="have-blueprint" value="0"></label>
+</div>
 
 <button onclick="calculate()">計算する</button>
 
-<hr>
-
 <h2>計算結果</h2>
-<div id="result">
-  ここに結果が表示されます
-</div>
+<div id="result">ここに結果が表示されます</div>
 
 <script src="script.js"></script>
 </body>
