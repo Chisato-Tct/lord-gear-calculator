@@ -4,12 +4,22 @@
   <meta charset="UTF-8" />
   <title>領主装備計算ツール</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    body { font-family: sans-serif; }
+    table { border-collapse: collapse; margin-bottom: 20px; }
+    th, td { border: 1px solid #999; padding: 6px 10px; text-align: center; }
+    th { background: #f0f0f0; }
+    .short { width: 140px; }
+    .material input { width: 120px; }
+    .negative { color: red; font-weight: bold; }
+  </style>
 </head>
 <body>
 
 <h1>領主装備計算ツール</h1>
-<p>各部位ごとに「現在」と「目標」を選択してください。</p>
+<p>各部位の「現在」と「目標」を選択してください。</p>
 
+<!-- 装備選択 -->
 <table>
   <thead>
     <tr>
@@ -19,26 +29,66 @@
     </tr>
   </thead>
   <tbody>
-    <tr><td>帽子</td><td><select class="current"></select></td><td><select class="target"></select></td></tr>
-    <tr><td>装飾</td><td><select class="current"></select></td><td><select class="target"></select></td></tr>
-    <tr><td>ローブ</td><td><select class="current"></select></td><td><select class="target"></select></td></tr>
-    <tr><td>ズボン</td><td><select class="current"></select></td><td><select class="target"></select></td></tr>
-    <tr><td>指輪</td><td><select class="current"></select></td><td><select class="target"></select></td></tr>
-    <tr><td>杖</td><td><select class="current"></select></td><td><select class="target"></select></td></tr>
+    <!-- 並び順：帽子、装飾、ローブ、ズボン、指輪、杖 -->
+    <tr>
+      <td>帽子</td>
+      <td><select class="current short"></select></td>
+      <td><select class="target short"></select></td>
+    </tr>
+    <tr>
+      <td>装飾</td>
+      <td><select class="current short"></select></td>
+      <td><select class="target short"></select></td>
+    </tr>
+    <tr>
+      <td>ローブ</td>
+      <td><select class="current short"></select></td>
+      <td><select class="target short"></select></td>
+    </tr>
+    <tr>
+      <td>ズボン</td>
+      <td><select class="current short"></select></td>
+      <td><select class="target short"></select></td>
+    </tr>
+    <tr>
+      <td>指輪</td>
+      <td><select class="current short"></select></td>
+      <td><select class="target short"></select></td>
+    </tr>
+    <tr>
+      <td>杖</td>
+      <td><select class="current short"></select></td>
+      <td><select class="target short"></select></td>
+    </tr>
   </tbody>
 </table>
 
-<div class="materials">
-  <h3>所持素材</h3>
-  <label>絹 <input type="number" id="have-silk" value="0"></label>
-  <label>金の糸 <input type="number" id="have-thread" value="0"></label>
-  <label>設計図 <input type="number" id="have-blueprint" value="0"></label>
+<!-- 所持素材 -->
+<h2>所持素材</h2>
+<div class="material">
+  <label>絹：
+    <input type="number" id="have-silk" value="0">
+  </label>
+  <br><br>
+  <label>金の糸：
+    <input type="number" id="have-thread" value="0">
+  </label>
+  <br><br>
+  <label>設計図：
+    <input type="number" id="have-blueprint" value="0">
+  </label>
 </div>
 
+<br>
 <button onclick="calculate()">計算する</button>
 
+<hr>
+
+<!-- 計算結果 -->
 <h2>計算結果</h2>
-<div id="result">ここに結果が表示されます</div>
+<div id="result">
+  <p>ここに結果が表示されます</p>
+</div>
 
 <script src="script.js"></script>
 </body>
