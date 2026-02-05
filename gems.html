@@ -1,95 +1,122 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>宝石計算ツール</title>
-  <style>
-    body { font-family: sans-serif; }
-    table { border-collapse: collapse; }
-    th, td { border: 1px solid #999; padding: 6px 10px; text-align: center; }
-    .red { color: red; font-weight: bold; }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <h1>宝石計算ツール</h1>
+<p>現在レベルと目標レベルを選択してください。（Lv2〜Lv14）</p>
 
-<p>現在Lvと目標Lvを選択してください（Lv2〜14）</p>
+<table>
+  <thead>
+    <tr>
+      <th>項目</th>
+      <th>現在</th>
+      <th>目標</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>宝石レベル</td>
+      <td>
+        <select id="current-level"></select>
+      </td>
+      <td>
+        <select id="target-level"></select>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
-<label>
-  現在Lv：
-  <select id="currentLv"></select>
-</label>
-
-<label>
-  目標Lv：
-  <select id="targetLv"></select>
-</label>
-
-<h3>所持数</h3>
-<label>Charm Guides：<input type="number" id="haveGuides" value="0"></label><br>
-<label>Charm Designs：<input type="number" id="haveDesigns" value="0"></label><br><br>
+<h2>所持素材</h2>
+<div class="materials">
+  <label>
+    Charm Guides
+    <input type="number" id="have-guides" value="0">
+  </label>
+  <label>
+    Charm Designs
+    <input type="number" id="have-designs" value="0">
+  </label>
+</div>
 
 <button onclick="calculate()">計算する</button>
-
-<hr>
 
 <h2>計算結果</h2>
 <div id="result">ここに結果が表示されます</div>
 
 <script>
-/* ===== マスターデータ（Lv2〜14） ===== */
-const MASTER = {
-  2:  { g: 40,  d: 15 },
-  3:  { g: 60,  d: 40 },
-  4:  { g: 80,  d: 100 },
-  5:  { g: 100, d: 200 },
-  6:  { g: 120, d: 300 },
-  7:  { g: 140, d: 400 },
-  8:  { g: 200, d: 400 },
-  9:  { g: 300, d: 400 },
-  10: { g: 420, d: 420 },
-  11: { g: 560, d: 420 },
-  12: { g: 580, d: 600 },
-  13: { g: 610, d: 780 },
-  14: { g: 645, d: 960 }
+/* ===== マスターデータ =====
+   Lv1は除外、Lv2〜14のみ
+*/
+const GEM_MASTER = {
+  2: { guides: 40,  designs: 15 },
+  3: { guides: 60,  designs: 40 },
+  4: { guides: 80,  designs: 100 },
+  5: { guides: 100, designs: 200 },
+  6: { guides: 120, designs: 300 },
+  7: { guides: 140, designs: 400 },
+  8: { guides: 200, designs: 400 },
+  9: { guides: 300, designs: 400 },
+  10:{ guides: 420, designs: 420 },
+  11:{ guides: 560, designs: 420 },
+  12:{ guides: 580, designs: 600 },
+  13:{ guides: 610, designs: 780 },
+  14:{ guides: 645, designs: 960 }
 };
 
-/* プルダウン初期化 */
-const cur = document.getElementById("currentLv");
-const tgt = document.getElementById("targetLv");
-for (let i = 2; i <= 14; i++) {
-  cur.innerHTML += `<option value="${i}">${i}</option>`;
-  tgt.innerHTML += `<option value="${i}">${i}</option>`;
-}
+/* ===== プルダウン初期化 ===== */
+const currentSel = document.getElementById("current-level");
+const targetSel  = document.getElementById("target-level");
 
-/* 計算 */
+Object.keys(GEM_MASTER).forEach(lv => {
+  const opt1 = document.createElement("option");
+  opt1.value = lv;
+  opt1.textContent = `Lv${lv}`;
+  currentSel.appendChild(opt1);
+
+  const opt2 = document.createElement("option");
+  opt2.value = lv;
+  opt2.textContent = `Lv${lv}`;
+  targetSel.appendChild(opt2);
+});
+
+/* ===== 計算処理 ===== */
 function calculate() {
-  const c = Number(cur.value);
-  const t = Number(tgt.value);
-  if (t <= c) {
-    document.getElementById("result").innerText = "目標Lvは現在Lvより大きくしてください";
+  const cur = Number(currentSel.value);
+  const tgt = Number(targetSel.value);
+
+  if (tgt <= cur) {
+    document.getElementById("result").innerHTML =
+      "目標レベルは現在より高くしてください";
     return;
   }
 
-  let needG = 0, needD = 0;
-  for (let lv = c + 1; lv <= t; lv++) {
-    needG += MASTER[lv].g;
-    needD += MASTER[lv].d;
+  let needGuides = 0;
+  let needDesigns = 0;
+
+  for (let lv = cur + 1; lv <= tgt; lv++) {
+    needGuides  += GEM_MASTER[lv].guides;
+    needDesigns += GEM_MASTER[lv].designs;
   }
 
-  const haveG = Number(document.getElementById("haveGuides").value);
-  const haveD = Number(document.getElementById("haveDesigns").value);
+  const haveGuides  = Number(document.getElementById("have-guides").value);
+  const haveDesigns = Number(document.getElementById("have-designs").value);
 
-  const lackG = needG - haveG;
-  const lackD = needD - haveD;
+  const lackGuides  = needGuides  - haveGuides;
+  const lackDesigns = needDesigns - haveDesigns;
+
+  const red = v => v > 0 ? `<span class="negative">${v}</span>` : 0;
 
   document.getElementById("result").innerHTML = `
-    <p>必要 Guides：${needG}</p>
-    <p>必要 Designs：${needD}</p>
+    <p>必要 Charm Guides：${needGuides}</p>
+    <p>必要 Charm Designs：${needDesigns}</p>
     <hr>
-    <p>不足 Guides：${lackG > 0 ? `<span class="red">${lackG}</span>` : 0}</p>
-    <p>不足 Designs：${lackD > 0 ? `<span class="red">${lackD}</span>` : 0}</p>
+    <p>不足 Charm Guides：${red(lackGuides)}</p>
+    <p>不足 Charm Designs：${red(lackDesigns)}</p>
   `;
 }
 </script>
