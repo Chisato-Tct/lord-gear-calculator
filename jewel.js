@@ -1,84 +1,77 @@
-// ===== 宝石レベルマスター（Lv1→14）=====
+// ===============================
+// 宝石マスターデータ（Lv1〜14）
+// Guides = 宝石ハンドブック
+// Designs = 宝石図面
+// ===============================
 const JEWEL_MASTER = {
-  1:  {guide: 10,  design: 1},
-  2:  {guide: 20,  design: 2},
-  3:  {guide: 40,  design: 3},
-  4:  {guide: 70,  design: 5},
-  5:  {guide: 110, design: 8},
-  6:  {guide: 160, design: 12},
-  7:  {guide: 220, design: 18},
-  8:  {guide: 300, design: 26},
-  9:  {guide: 400, design: 36},
-  10: {guide: 550, design: 50},
-  11: {guide: 750, design: 70},
-  12: {guide: 1000,design: 95},
-  13: {guide: 1300,design: 130},
-  14: {guide: 1700,design: 180},
+  1:  { guides: 5,   designs: 5   },
+  2:  { guides: 40,  designs: 15  },
+  3:  { guides: 60,  designs: 40  },
+  4:  { guides: 80,  designs: 100 },
+  5:  { guides: 100, designs: 200 },
+  6:  { guides: 120, designs: 300 },
+  7:  { guides: 140, designs: 400 },
+  8:  { guides: 200, designs: 400 },
+  9:  { guides: 300, designs: 400 },
+  10: { guides: 420, designs: 420 },
+  11: { guides: 560, designs: 420 },
+  12: { guides: 580, designs: 600 },
+  13: { guides: 610, designs: 780 },
+  14: { guides: 645, designs: 960 }
 };
 
-// ===== 部位・スロット定義 =====
-const PARTS = ["帽子","装飾","ローブ","ズボン","指輪","杖"];
-const SLOTS = ["①","②","③"];
+// ===============================
+// セレクト初期化（Lv0含む）
+// ===============================
+function initJewelSelects() {
+  const options =
+    `<option value="0">Lv0</option>` +
+    Object.keys(JEWEL_MASTER)
+      .map(lv => `<option value="${lv}">Lv${lv}</option>`)
+      .join("");
 
-// ===== テーブル生成 =====
-const tbody = document.getElementById("jewel-table");
-let html = "";
-
-PARTS.forEach(part => {
-  SLOTS.forEach((slot, i) => {
-    html += `
-      <tr>
-        <td>${i === 0 ? part : ""}</td>
-        <td>${slot}</td>
-        <td><select class="cur"></select></td>
-        <td><select class="tar"></select></td>
-      </tr>
-    `;
+  document.querySelectorAll("select.current, select.target").forEach(sel => {
+    sel.innerHTML = options;
+    sel.value = "0";
   });
-});
+}
 
-tbody.innerHTML = html;
+initJewelSelects();
 
-// ===== セレクト初期化 =====
-const levelOptions =
-  `<option value="">選択</option>` +
-  Object.keys(JEWEL_MASTER)
-    .map(l => `<option value="${l}">Lv${l}</option>`)
-    .join("");
-
-document.querySelectorAll(".cur, .tar").forEach(sel => {
-  sel.innerHTML = levelOptions;
-});
-
-// ===== 計算 =====
+// ===============================
+// 計算処理
+// ===============================
 function calculate() {
-  let needGuide = 0;
-  let needDesign = 0;
+  let needGuides = 0;
+  let needDesigns = 0;
 
   document.querySelectorAll("tbody tr").forEach(tr => {
-    const cur = Number(tr.querySelector(".cur").value);
-    const tar = Number(tr.querySelector(".tar").value);
-    if (!cur || !tar || tar <= cur) return;
+    const cur = Number(tr.querySelector(".current")?.value);
+    const tar = Number(tr.querySelector(".target")?.value);
+
+    if (isNaN(cur) || isNaN(tar) || tar <= cur) return;
 
     for (let lv = cur + 1; lv <= tar; lv++) {
-      needGuide += JEWEL_MASTER[lv].guide;
-      needDesign += JEWEL_MASTER[lv].design;
+      const m = JEWEL_MASTER[lv];
+      if (!m) continue;
+      needGuides += m.guides;
+      needDesigns += m.designs;
     }
   });
 
-  const haveGuide = Number(document.getElementById("have-guide").value);
-  const haveDesign = Number(document.getElementById("have-design").value);
+  const haveGuides  = Number(document.getElementById("have-guides").value)  || 0;
+  const haveDesigns = Number(document.getElementById("have-designs").value) || 0;
 
-  const lackGuide = needGuide - haveGuide;
-  const lackDesign = needDesign - haveDesign;
+  const lackGuides  = needGuides  - haveGuides;
+  const lackDesigns = needDesigns - haveDesigns;
 
   const red = v => v > 0 ? `<span style="color:red">${v}</span>` : 0;
 
   document.getElementById("result").innerHTML = `
-    <p>必要 Guides：${needGuide}</p>
-    <p>必要 Designs：${needDesign}</p>
+    <p>必要 宝石ハンドブック：${needGuides}</p>
+    <p>必要 宝石図面：${needDesigns}</p>
     <hr>
-    <p>不足 Guides：${red(lackGuide)}</p>
-    <p>不足 Designs：${red(lackDesign)}</p>
+    <p>不足 宝石ハンドブック：${red(lackGuides)}</p>
+    <p>不足 宝石図面：${red(lackDesigns)}</p>
   `;
 }
