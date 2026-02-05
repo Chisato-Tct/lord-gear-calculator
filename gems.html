@@ -4,41 +4,219 @@
   <meta charset="UTF-8">
   <title>宝石計算ツール</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f7f7f7;
+      padding: 20px;
+    }
+    h1 {
+      margin-bottom: 4px;
+    }
+    p.desc {
+      color: #555;
+      margin-bottom: 20px;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      max-width: 900px;
+      background: #fff;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: center;
+    }
+    th {
+      background: #f0f0f0;
+    }
+    td.part {
+      font-weight: bold;
+      background: #fafafa;
+      width: 80px;
+    }
+    select, input[type="number"] {
+      width: 100%;
+      padding: 4px;
+    }
+    .materials {
+      max-width: 400px;
+      margin-top: 20px;
+      background: #fff;
+      padding: 15px;
+      border: 1px solid #ddd;
+    }
+    .materials label {
+      display: block;
+      margin-bottom: 10px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 24px;
+      font-size: 16px;
+      background: #2d6cdf;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      opacity: 0.9;
+    }
+    #result {
+      margin-top: 20px;
+      max-width: 600px;
+      background: #fff;
+      padding: 15px;
+      border: 1px solid #ddd;
+    }
+  </style>
 </head>
 <body>
 
 <h1>宝石計算ツール</h1>
-<p>各宝石スロットごとに「現在Lv」と「目標Lv」を選択</p>
+<p class="desc">各宝石スロットごとに「現在Lv」と「目標Lv」を選択</p>
 
-<table border="1" cellpadding="6">
+<table>
   <thead>
     <tr>
       <th>部位</th>
       <th>宝石</th>
-      <th>現在</th>
-      <th>目標</th>
+      <th>現在Lv</th>
+      <th>目標Lv</th>
     </tr>
   </thead>
-  <tbody id="jewel-table"></tbody>
+  <tbody>
+
+    <!-- 帽子 -->
+    <tr>
+      <td class="part" rowspan="3">帽子</td>
+      <td>①</td>
+      <td><select class="current"></select></td>
+      <td><select class="target"></select></td>
+    </tr>
+    <tr>
+      <td>②</td>
+      <td><select class="current"></select></td>
+      <td><select class="target"></select></td>
+    </tr>
+    <tr>
+      <td>③</td>
+      <td><select class="current"></select></td>
+      <td><select class="target"></select></td>
+    </tr>
+
+    <!-- 装飾 -->
+    <tr>
+      <td class="part" rowspan="3">装飾</td>
+      <td>①</td>
+      <td><select class="current"></select></td>
+      <td><select class="target"></select></td>
+    </tr>
+    <tr>
+      <td>②</td>
+      <td><select class="current"></select></td>
+      <td><select class="target"></select></td>
+    </tr>
+    <tr>
+      <td>③</td>
+      <td><select class="current"></select></td>
+      <td><select class="target"></select></td>
+    </tr>
+
+    <!-- ローブ -->
+    <tr>
+      <td class="part" rowspan="3">ローブ</td>
+      <td>①</td>
+      <td><select class="current"></select></td>
+      <td><select class="target"></select></td>
+    </tr>
+    <tr>
+      <td>②</td>
+      <td><select class="current"></select></td>
+      <td><select class="target"></select></td>
+    </tr>
+    <tr>
+      <td>③</td>
+      <td><select class="current"></select></td>
+      <td><select class="target"></select></td>
+    </tr>
+
+    <!-- ズボン -->
+    <tr>
+      <td class="part" rowspan="3">ズボン</td>
+      <td>①</td>
+      <td><select class="current"></select></td>
+      <td><select class="target"></select></td>
+    </tr>
+    <tr>
+      <td>②</td>
+      <td><select class="current"></select></td>
+      <td><select class="target"></select></td>
+    </tr>
+    <tr>
+      <td>③</td>
+      <td><select class="current"></select></td>
+      <td><select class="target"></select></td>
+    </tr>
+
+    <!-- 指輪 -->
+    <tr>
+      <td class="part" rowspan="3">指輪</td>
+      <td>①</td>
+      <td><select class="current"></select></td>
+      <td><select class="target"></select></td>
+    </tr>
+    <tr>
+      <td>②</td>
+      <td><select class="current"></select></td>
+      <td><select class="target"></select></td>
+    </tr>
+    <tr>
+      <td>③</td>
+      <td><select class="current"></select></td>
+      <td><select class="target"></select></td>
+    </tr>
+
+    <!-- 杖 -->
+    <tr>
+      <td class="part" rowspan="3">杖</td>
+      <td>①</td>
+      <td><select class="current"></select></td>
+      <td><select class="target"></select></td>
+    </tr>
+    <tr>
+      <td>②</td>
+      <td><select class="current"></select></td>
+      <td><select class="target"></select></td>
+    </tr>
+    <tr>
+      <td>③</td>
+      <td><select class="current"></select></td>
+      <td><select class="target"></select></td>
+    </tr>
+
+  </tbody>
 </table>
 
-<br>
+<div class="materials">
+  <h3>所持素材</h3>
+  <label>
+    宝石ハンドブック（Guides）：
+    <input type="number" id="have-guides" value="0" min="0">
+  </label>
+  <label>
+    宝石図面（Designs）：
+    <input type="number" id="have-designs" value="0" min="0">
+  </label>
+</div>
 
-<h3>所持素材</h3>
-<label>Guides：
-  <input type="number" id="have-guide" value="0">
-</label><br><br>
-<label>Designs：
-  <input type="number" id="have-design" value="0">
-</label>
-
-<br><br>
 <button onclick="calculate()">計算する</button>
 
-<hr>
-
-<h2>計算結果</h2>
-<div id="result">ここに結果が表示されます</div>
+<div id="result">
+  ここに結果が表示されます
+</div>
 
 <script src="jewel.js"></script>
 </body>
