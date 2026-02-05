@@ -4,146 +4,82 @@
   <meta charset="UTF-8">
   <title>宝石計算ツール</title>
   <style>
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      background: #f7f7f7;
-      padding: 20px;
-    }
-
-    h1 {
-      text-align: center;
-    }
-
-    .box {
-      max-width: 520px;
-      margin: 0 auto 16px;
-      background: #fff;
-      padding: 16px;
-      border-radius: 8px;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 10px;
-    }
-
-    select, input {
-      width: 100%;
-      padding: 6px;
-      font-size: 14px;
-    }
-
-    button {
-      width: 100%;
-      padding: 12px;
-      font-size: 16px;
-      background: #2563eb;
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      opacity: 0.9;
-    }
-
-    .result {
-      font-size: 15px;
-    }
-
-    .negative {
-      color: red;
-      font-weight: bold;
-    }
+    body { font-family: sans-serif; }
+    table { border-collapse: collapse; }
+    th, td { border: 1px solid #999; padding: 6px 10px; text-align: center; }
+    .red { color: red; font-weight: bold; }
   </style>
 </head>
 <body>
 
 <h1>宝石計算ツール</h1>
 
-<div class="box">
-  <label>
-    現在レベル
-    <select id="currentLevel"></select>
-  </label>
+<p>現在Lvと目標Lvを選択してください（Lv2〜14）</p>
 
-  <label>
-    目標レベル
-    <select id="targetLevel"></select>
-  </label>
-</div>
+<label>
+  現在Lv：
+  <select id="currentLv"></select>
+</label>
 
-<div class="box">
-  <label>
-    Charm Guides（所持）
-    <input type="number" id="haveGuides" value="0">
-  </label>
+<label>
+  目標Lv：
+  <select id="targetLv"></select>
+</label>
 
-  <label>
-    Charm Designs（所持）
-    <input type="number" id="haveDesigns" value="0">
-  </label>
-</div>
+<h3>所持数</h3>
+<label>Charm Guides：<input type="number" id="haveGuides" value="0"></label><br>
+<label>Charm Designs：<input type="number" id="haveDesigns" value="0"></label><br><br>
 
-<div class="box">
-  <button onclick="calculate()">計算する</button>
-</div>
+<button onclick="calculate()">計算する</button>
 
-<div class="box result" id="result">
-  ここに結果が表示されます
-</div>
+<hr>
+
+<h2>計算結果</h2>
+<div id="result">ここに結果が表示されます</div>
 
 <script>
-/* ===== マスターデータ（Lv1〜14） ===== */
-const jewelMaster = {
-  1: { guides: 5, designs: 0 },
-  2: { guides: 10, designs: 0 },
-  3: { guides: 20, designs: 0 },
-  4: { guides: 40, designs: 0 },
-  5: { guides: 80, designs: 5 },
-  6: { guides: 120, designs: 10 },
-  7: { guides: 180, designs: 15 },
-  8: { guides: 260, designs: 20 },
-  9: { guides: 360, designs: 30 },
-  10:{ guides: 500, designs: 40 },
-  11:{ guides: 700, designs: 55 },
-  12:{ guides: 1000, designs: 75 },
-  13:{ guides: 1400, designs: 100 },
-  14:{ guides: 2000, designs: 140 }
+/* ===== マスターデータ（Lv2〜14） ===== */
+const MASTER = {
+  2:  { g: 40,  d: 15 },
+  3:  { g: 60,  d: 40 },
+  4:  { g: 80,  d: 100 },
+  5:  { g: 100, d: 200 },
+  6:  { g: 120, d: 300 },
+  7:  { g: 140, d: 400 },
+  8:  { g: 200, d: 400 },
+  9:  { g: 300, d: 400 },
+  10: { g: 420, d: 420 },
+  11: { g: 560, d: 420 },
+  12: { g: 580, d: 600 },
+  13: { g: 610, d: 780 },
+  14: { g: 645, d: 960 }
 };
 
-/* ===== 初期化 ===== */
-const curSel = document.getElementById("currentLevel");
-const tgtSel = document.getElementById("targetLevel");
-
-for (let i = 1; i <= 14; i++) {
-  curSel.innerHTML += `<option value="${i}">Lv ${i}</option>`;
-  tgtSel.innerHTML += `<option value="${i}">Lv ${i}</option>`;
+/* プルダウン初期化 */
+const cur = document.getElementById("currentLv");
+const tgt = document.getElementById("targetLv");
+for (let i = 2; i <= 14; i++) {
+  cur.innerHTML += `<option value="${i}">${i}</option>`;
+  tgt.innerHTML += `<option value="${i}">${i}</option>`;
 }
 
-tgtSel.value = 14;
-
-/* ===== 計算 ===== */
+/* 計算 */
 function calculate() {
-  const cur = Number(curSel.value);
-  const tgt = Number(tgtSel.value);
-  const haveG = Number(document.getElementById("haveGuides").value);
-  const haveD = Number(document.getElementById("haveDesigns").value);
-
-  if (tgt <= cur) {
-    document.getElementById("result").innerHTML =
-      "目標レベルは現在より高くしてください";
+  const c = Number(cur.value);
+  const t = Number(tgt.value);
+  if (t <= c) {
+    document.getElementById("result").innerText = "目標Lvは現在Lvより大きくしてください";
     return;
   }
 
-  let needG = 0;
-  let needD = 0;
-
-  for (let lv = cur + 1; lv <= tgt; lv++) {
-    needG += jewelMaster[lv].guides;
-    needD += jewelMaster[lv].designs;
+  let needG = 0, needD = 0;
+  for (let lv = c + 1; lv <= t; lv++) {
+    needG += MASTER[lv].g;
+    needD += MASTER[lv].d;
   }
+
+  const haveG = Number(document.getElementById("haveGuides").value);
+  const haveD = Number(document.getElementById("haveDesigns").value);
 
   const lackG = needG - haveG;
   const lackD = needD - haveD;
@@ -152,12 +88,8 @@ function calculate() {
     <p>必要 Guides：${needG}</p>
     <p>必要 Designs：${needD}</p>
     <hr>
-    <p>不足 Guides：
-      ${lackG > 0 ? `<span class="negative">${lackG}</span>` : "0"}
-    </p>
-    <p>不足 Designs：
-      ${lackD > 0 ? `<span class="negative">${lackD}</span>` : "0"}
-    </p>
+    <p>不足 Guides：${lackG > 0 ? `<span class="red">${lackG}</span>` : 0}</p>
+    <p>不足 Designs：${lackD > 0 ? `<span class="red">${lackD}</span>` : 0}</p>
   `;
 }
 </script>
